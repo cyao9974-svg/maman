@@ -1,5 +1,6 @@
 /* ==========================================================================
-   SITE DE FÊTE DES MÈRES V2 - LOGIQUE INTERACTIVE ET EFFETS MAGIQUES
+   SITE DE FÊTE DES MÈRES V2 - LOGIQUE INTERACTIVE ET EFFETS MAGIQUES OPTIMISÉS
+   Auteur: Antigravity AI
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -174,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadTrack(index) {
         const track = audioPlaylist[index];
-        audioPlayer.src = track.file; // Lecture directe robuste compatible file:// et http://
+        audioPlayer.src = track.file; // Lecture directe
         trackTitle.textContent = track.title;
         trackArtist.textContent = track.artist;
         
@@ -199,10 +200,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 playIcon.className = "fa-solid fa-pause";
                 vinylDisk.classList.add("spinning");
                 vinylTonearm.classList.add("playing");
-                audioEqualizer.classList.add("playing"); // Lancer l'égaliseur CSS !
+                audioEqualizer.classList.add("playing");
             })
             .catch(error => {
-                console.log("Lecture automatique impossible hors clic direct :", error);
+                console.log("Lecture automatique bloquée :", error);
             });
     }
 
@@ -212,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
         playIcon.className = "fa-solid fa-play";
         vinylDisk.classList.remove("spinning");
         vinylTonearm.classList.remove("playing");
-        audioEqualizer.classList.remove("playing"); // Arrêter l'égaliseur CSS
+        audioEqualizer.classList.remove("playing");
     }
 
     btnPlayPause.addEventListener("click", () => {
@@ -292,10 +293,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPlaylist();
 
     // ==========================================================================
-    // 4. L'HOMMAGE PROFOND : EFFET DE MACHINE À ÉCRIRE AVANCÉ
+    // 4. L'HOMMAGE PROFOND : MACHINE À ÉCRIRE PROGRESSIVE
     // ==========================================================================
     
-    // Découpage structurel de la lettre d'amour pour l'écrire dynamiquement
     const letterSections = [
         { type: "salutation", text: "Maman, notre Reine, notre premier amour..." },
         { type: "p", text: "Si nous devions retenir une seule image de notre enfance, ce serait celle de ton regard protecteur, de tes mains douces qui ont apaisé nos fièvres et de ton cœur qui a battu pour nous avant même notre premier souffle." },
@@ -315,19 +315,16 @@ document.addEventListener("DOMContentLoaded", () => {
         let charIndex = 0;
         let activeParagraphElement = null;
         
-        // Ajouter le curseur clignotant
         const cursor = document.createElement("span");
         cursor.className = "typewriter-cursor";
         typewriterContainer.appendChild(cursor);
 
         function typeNextCharacter() {
             if (sectionIndex >= letterSections.length) {
-                // Écriture terminée ! Révéler la signature et le bouton câlin
                 cursor.remove();
                 letterSignatureBlock.classList.remove("hidden");
                 setTimeout(() => {
                     letterSignatureBlock.classList.add("show");
-                    // Déclencher un mini feu d'artifice de cœurs pour célébrer
                     triggerHeartBurstAtCenter();
                 }, 100);
                 isTypewriterActive = false;
@@ -336,7 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const currentSec = letterSections[sectionIndex];
 
-            // Si on commence un paragraphe
             if (charIndex === 0) {
                 activeParagraphElement = document.createElement("p");
                 
@@ -346,22 +342,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     activeParagraphElement.className = "highlight-typed";
                 }
                 
-                // Insérer le nouveau paragraphe juste avant le curseur
                 typewriterContainer.insertBefore(activeParagraphElement, cursor);
             }
 
-            // Écrire le caractère suivant
             activeParagraphElement.textContent += currentSec.text[charIndex];
             charIndex++;
 
             if (charIndex >= currentSec.text.length) {
-                // Fin de paragraphe : passer au suivant après une pause
                 sectionIndex++;
                 charIndex = 0;
-                typewriterTimeout = setTimeout(typeNextCharacter, 600); // 600ms de pause entre paragraphes
+                typewriterTimeout = setTimeout(typeNextCharacter, 600);
             } else {
-                // Caractère suivant : vitesse d'écriture variable pour un effet plus naturel (entre 18ms et 35ms)
-                const typingSpeed = Math.random() * 17 + 18; 
+                const typingSpeed = Math.random() * 15 + 15; 
                 typewriterTimeout = setTimeout(typeNextCharacter, typingSpeed);
             }
         }
@@ -369,15 +361,12 @@ document.addEventListener("DOMContentLoaded", () => {
         typeNextCharacter();
     }
 
-    // Permettre à l'utilisateur de cliquer sur la carte de la lettre pour tout afficher d'un coup
     typewriterContainer.addEventListener("click", () => {
         if (!isTypewriterActive) return;
         
-        // Annuler le timer en cours
         clearTimeout(typewriterTimeout);
         isTypewriterActive = false;
         
-        // Remplir tout le texte immédiatement
         typewriterContainer.innerHTML = "";
         letterSections.forEach(sec => {
             const el = document.createElement("p");
@@ -387,7 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
             typewriterContainer.appendChild(el);
         });
         
-        // Afficher la signature
         letterSignatureBlock.classList.remove("hidden");
         setTimeout(() => {
             letterSignatureBlock.classList.add("show");
@@ -396,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==========================================================================
-    // 5. LE DIAPORAMA (FONDU ENCHAÎNÉ 4 SECONDES)
+    // 5. DIAPORAMA DE SOUVENIRS (LAZY LOADING POUR RAM & PERFORMANCES)
     // ==========================================================================
     
     function initSlideshow() {
@@ -408,10 +396,14 @@ document.addEventListener("DOMContentLoaded", () => {
             slideContainer.className = `slide-img-container ${index === 0 ? 'active' : ''}`;
             
             const img = document.createElement("img");
-            img.src = imgSrc;
-            img.alt = `Souvenir de bonheur ${index + 1}`;
+            // LAZY LOADING INTELLIGENT : Charger uniquement la première image, différer les autres
+            if (index === 0) {
+                img.src = imgSrc;
+            } else {
+                img.dataset.src = imgSrc;
+            }
+            img.alt = `Souvenir de Fête des Mères ${index + 1}`;
             img.className = "slide-img";
-            img.loading = "lazy";
             
             slideContainer.appendChild(img);
             slideshowContainer.appendChild(slideContainer);
@@ -438,6 +430,20 @@ document.addEventListener("DOMContentLoaded", () => {
             activeSlideIndex = slides.length - 1;
         } else {
             activeSlideIndex = index;
+        }
+        
+        // Charger la photo active à la volée (Lazy-Load Just-in-Time)
+        const activeSlide = slides[activeSlideIndex];
+        const activeImg = activeSlide.querySelector("img");
+        if (activeImg && !activeImg.src && activeImg.dataset.src) {
+            activeImg.src = activeImg.dataset.src;
+        }
+
+        // Précharger l'image suivante pour que la transition soit instantanée !
+        const nextIndex = (activeSlideIndex + 1) % slides.length;
+        const nextImg = slides[nextIndex].querySelector("img");
+        if (nextImg && !nextImg.src && nextImg.dataset.src) {
+            nextImg.src = nextImg.dataset.src;
         }
         
         slides.forEach((slide, idx) => {
@@ -481,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initSlideshow();
 
     // ==========================================================================
-    // 6. GALERIE D'EXPLORATION & VISIONNEUSE PLEIN ÉCRAN (LIGHTBOX)
+    // 6. GALERIE PHOTO INTERACTIVE & VISIONNEUSE PLEIN ÉCRAN
     // ==========================================================================
     
     function renderGallery() {
@@ -489,7 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
         familyImages.forEach((imgSrc, index) => {
             const galleryItem = document.createElement("div");
             galleryItem.className = "gallery-item";
-            galleryItem.innerHTML = `<img src="${imgSrc}" alt="Vignette souvenir ${index + 1}" loading="lazy">`;
+            galleryItem.innerHTML = `<img src="${imgSrc}" alt="Miniature souvenir ${index + 1}" loading="lazy">`;
             
             galleryItem.addEventListener("click", () => {
                 openLightbox(index);
@@ -563,19 +569,63 @@ document.addEventListener("DOMContentLoaded", () => {
     renderGallery();
 
     // ==========================================================================
-    // 7. PARTICULES CANVAS AVANCÉES (PLUIE, MOUVEMENT SOURIS ET EXPLOSIONS)
+    // 7. PARTICULES CANVAS ULTRA-PERFORMANTES (TEXTURES HORS-ÉCRAN PRE-RENDUES)
     // ==========================================================================
     
     const ctx = canvas.getContext("2d");
     let particlesArray = [];
-    let sparkleTrailThrottle = 0;
+    let lastSparkleTime = 0; // Limitation de l'échantillonnage de la souris
 
     const colors = [
-        "rgba(255, 77, 109, 0.55)",  // Rose fuchsia brillant
-        "rgba(255, 158, 187, 0.5)",  // Rose poudré scintillant
-        "rgba(244, 194, 194, 0.45)", // Rose gold métallique
-        "rgba(230, 184, 156, 0.4)"   // Or champagne lumineux
+        "rgba(255, 77, 109, 0.55)",  // Rose fuchsia
+        "rgba(255, 158, 187, 0.5)",  // Rose clair
+        "rgba(244, 194, 194, 0.45)", // Rose gold
+        "rgba(230, 184, 156, 0.4)"   // Or champagne
     ];
+
+    // textures pré-calculées hors-écran pour éviter d'évaluer les chemins bezier
+    const heartTextures = {};
+    const sparkleTextures = {};
+
+    function preRenderTextures() {
+        colors.forEach(color => {
+            // Dessiner un cœur de référence 32x32px
+            const canvasHeart = document.createElement("canvas");
+            canvasHeart.width = 32;
+            canvasHeart.height = 32;
+            const ctxHeart = canvasHeart.getContext("2d");
+            ctxHeart.fillStyle = color;
+            ctxHeart.beginPath();
+            const d = 22; // Taille du cœur sur la texture
+            const x = 5;
+            const y = 4;
+            ctxHeart.moveTo(x, y + d / 4);
+            ctxHeart.quadraticCurveTo(x, y, x + d / 2, y);
+            ctxHeart.quadraticCurveTo(x + d, y, x + d, y + d / 3);
+            ctxHeart.quadraticCurveTo(x + d, y + (d * 2) / 3, x + d / 2, y + d);
+            ctxHeart.quadraticCurveTo(x, y + (d * 2) / 3, x, y + d / 3);
+            ctxHeart.quadraticCurveTo(x, y, x, y + d / 4);
+            ctxHeart.closePath();
+            ctxHeart.fill();
+            heartTextures[color] = canvasHeart;
+
+            // Dessiner une étincelle de référence 16x16px
+            const canvasSparkle = document.createElement("canvas");
+            canvasSparkle.width = 16;
+            canvasSparkle.height = 16;
+            const ctxSparkle = canvasSparkle.getContext("2d");
+            ctxSparkle.fillStyle = color;
+            ctxSparkle.beginPath();
+            const size = 6;
+            ctxSparkle.moveTo(8, 8 - size);
+            ctxSparkle.lineTo(8 + size/2, 8);
+            ctxSparkle.lineTo(8, 8 + size);
+            ctxSparkle.lineTo(8 - size/2, 8);
+            ctxSparkle.closePath();
+            ctxSparkle.fill();
+            sparkleTextures[color] = canvasSparkle;
+        });
+    }
 
     function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -584,78 +634,65 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    // Classe Particule Multi-Usage (Météo, Traînée de souris, Explosions)
     class Particle {
         constructor(x, y, type = "drift") {
-            this.type = type; // "drift" (pluie douce), "trail" (traînée souris), "burst" (explosion de cœurs)
+            this.type = type;
             
-            // Coordonnées de départ
             if (type === "drift") {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + Math.random() * 100;
-                this.size = Math.random() * 7 + 4; // Taille cœurs pluie
-                this.speedY = -(Math.random() * 1.2 + 0.4); // Douce dérive vers le haut
-                this.speedX = Math.random() * 0.6 - 0.3;
-                this.alpha = Math.random() * 0.5 + 0.2;
+                this.size = Math.random() * 6 + 4; // Cœurs pluie plus légers
+                this.speedY = -(Math.random() * 1.0 + 0.3); // Dérive très calme
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.alpha = Math.random() * 0.45 + 0.15;
             } else if (type === "trail") {
                 this.x = x;
                 this.y = y;
-                this.size = Math.random() * 5 + 3; // Étoiles scintillantes
-                this.speedY = Math.random() * 1.5 + 0.5; // Chute vers le bas
-                this.speedX = Math.random() * 1.6 - 0.8;
+                this.size = Math.random() * 4 + 2.5;
+                this.speedY = Math.random() * 1.2 + 0.4;
+                this.speedX = Math.random() * 1.2 - 0.6;
                 this.alpha = 1.0;
-                this.decay = Math.random() * 0.015 + 0.015; // Évanouissement rapide
+                this.decay = Math.random() * 0.02 + 0.02; // S'évanouit plus vite pour libérer de la mémoire
             } else if (type === "burst") {
                 this.x = x;
                 this.y = y;
-                this.size = Math.random() * 10 + 6; // Cœurs d'explosion plus gros !
-                
-                // Vitesse radiale 360° aléatoire
+                this.size = Math.random() * 8 + 5;
                 const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 6 + 2; 
+                const speed = Math.random() * 4.5 + 1.5;
                 this.speedX = Math.cos(angle) * speed;
                 this.speedY = Math.sin(angle) * speed;
-                
                 this.alpha = 1.0;
-                this.decay = Math.random() * 0.008 + 0.01; // Évanouissement modéré
-                this.gravity = 0.08; // Chute sous gravité après explosion
+                this.decay = Math.random() * 0.015 + 0.015;
+                this.gravity = 0.06;
             }
 
             this.angle = Math.random() * Math.PI * 2;
-            this.spinSpeed = Math.random() * 0.04 - 0.02;
+            this.spinSpeed = Math.random() * 0.02 - 0.01;
             this.color = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Choisir la forme
-            this.shape = Math.random() > 0.3 ? "heart" : "sparkle";
+            this.shape = Math.random() > 0.45 ? "heart" : "sparkle";
         }
 
         update() {
             if (this.type === "drift") {
                 this.y += this.speedY;
-                this.x += this.speedX + Math.sin(this.angle) * 0.2;
+                this.x += this.speedX + Math.sin(this.angle) * 0.15;
                 this.angle += this.spinSpeed;
                 
-                // Boucler en bas
                 if (this.y < -20) {
                     this.y = canvas.height + 20;
                     this.x = Math.random() * canvas.width;
-                    this.speedY = -(Math.random() * 1.2 + 0.4);
+                    this.speedY = -(Math.random() * 1.0 + 0.3);
                 }
             } else if (this.type === "trail") {
                 this.y += this.speedY;
                 this.x += this.speedX;
                 this.alpha -= this.decay;
             } else if (this.type === "burst") {
-                // Ralentissement par frottement
-                this.speedX *= 0.98;
-                this.speedY *= 0.98;
-                
-                // Application de la gravité
+                this.speedX *= 0.97;
+                this.speedY *= 0.97;
                 this.speedY += this.gravity;
-                
                 this.x += this.speedX;
                 this.y += this.speedY;
-                
                 this.alpha -= this.decay;
             }
         }
@@ -665,39 +702,30 @@ document.addEventListener("DOMContentLoaded", () => {
             
             ctx.save();
             ctx.globalAlpha = this.alpha;
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
 
+            // OPTIMISATION ULTRA-HAUTE PERFORMANCE : Dessiner l'image pré-calculée au lieu des tracés bezier
             if (this.shape === "heart") {
-                const d = this.size;
-                const x = this.x;
-                const y = this.y;
-                ctx.moveTo(x, y + d / 4);
-                ctx.quadraticCurveTo(x, y, x + d / 2, y);
-                ctx.quadraticCurveTo(x + d, y, x + d, y + d / 3);
-                ctx.quadraticCurveTo(x + d, y + (d * 2) / 3, x + d / 2, y + d);
-                ctx.quadraticCurveTo(x, y + (d * 2) / 3, x, y + d / 3);
-                ctx.quadraticCurveTo(x, y, x, y + d / 4);
-                ctx.closePath();
-                ctx.fill();
+                const img = heartTextures[this.color];
+                if (img) {
+                    ctx.drawImage(img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+                }
             } else {
-                // Étincelle en forme de diamant (sparkle) pour le trail de souris
-                const size = this.size;
-                ctx.moveTo(this.x, this.y - size);
-                ctx.lineTo(this.x + size/2, this.y);
-                ctx.lineTo(this.x, this.y + size);
-                ctx.lineTo(this.x - size/2, this.y);
-                ctx.closePath();
-                ctx.fill();
+                const img = sparkleTextures[this.color];
+                if (img) {
+                    ctx.drawImage(img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+                }
             }
             ctx.restore();
         }
     }
 
     function initParticles() {
+        // Pré-calculer les textures une seule fois
+        preRenderTextures();
+
         particlesArray = [];
-        // Lancer 35 cœurs dérivant paisiblement dès le départ
-        const numPluie = 35;
+        // Budget de particules réduit pour maximiser le FPS (20 cœurs dérivant)
+        const numPluie = 20;
         for (let i = 0; i < numPluie; i++) {
             particlesArray.push(new Particle(0, 0, "drift"));
         }
@@ -707,7 +735,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Mettre à jour et dessiner les particules, filtrer celles qui ont fondu (alpha <= 0)
         particlesArray = particlesArray.filter(particle => {
             particle.update();
             particle.draw();
@@ -717,55 +744,52 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(animateParticles);
     }
 
-    // Traînée de Souris (Sparkles Mouse Trail)
+    // Traînée de Souris Throttlée (au maximum 1 particule toutes les 70ms pour éviter l'accumulation)
     window.addEventListener("mousemove", (e) => {
         if (entranceOverlay.classList.contains("fade-out")) {
-            sparkleTrailThrottle++;
-            // Ajouter un sparkle tous les 3 pixels de déplacement pour préserver la fluidité
-            if (sparkleTrailThrottle % 3 === 0) {
+            const now = Date.now();
+            if (now - lastSparkleTime > 70) {
                 particlesArray.push(new Particle(e.clientX, e.clientY, "trail"));
+                lastSparkleTime = now;
             }
         }
     });
 
     window.addEventListener("touchmove", (e) => {
         if (entranceOverlay.classList.contains("fade-out") && e.touches.length > 0) {
-            sparkleTrailThrottle++;
-            if (sparkleTrailThrottle % 3 === 0) {
+            const now = Date.now();
+            if (now - lastSparkleTime > 70) {
                 const touch = e.touches[0];
                 particlesArray.push(new Particle(touch.clientX, touch.clientY, "trail"));
+                lastSparkleTime = now;
             }
         }
     });
 
-    // Clic général sur l'écran pour provoquer une éruption locale
+    // Clic général : éruption locale modérée (6 cœurs)
     window.addEventListener("click", (e) => {
-        // Uniquement si l'enveloppe est déjà ouverte et qu'on ne clique pas sur un bouton interactif direct
         if (entranceOverlay.classList.contains("fade-out") && e.target.tagName !== "BUTTON" && e.target.tagName !== "INPUT" && !e.target.closest(".playlist-track-item")) {
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 6; i++) {
                 particlesArray.push(new Particle(e.clientX, e.clientY, "burst"));
             }
         }
     });
 
-    // Éruption centrée sur le bouton Câlin Virtuel
     function triggerHeartBurstAtCenter() {
         const rect = hugBtn.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         
-        // Lancer une superbe explosion de 25 cœurs !
-        for (let i = 0; i < 25; i++) {
+        // Budget d'explosion optimisé à 16 cœurs pour un rendu vif et rapide
+        for (let i = 0; i < 16; i++) {
             particlesArray.push(new Particle(centerX, centerY, "burst"));
         }
     }
 
-    // Écouteur de clic sur le bouton Câlin Virtuel
     hugBtn.addEventListener("click", (e) => {
-        e.stopPropagation(); // Éviter le clic général
+        e.stopPropagation();
         triggerHeartBurstAtCenter();
         
-        // Jouer un petit effet de pulse sur le bouton
         hugBtn.style.transform = "scale(0.95)";
         setTimeout(() => {
             hugBtn.style.transform = "";
@@ -779,9 +803,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let touchStartX = 0;
     let touchEndX = 0;
 
-    // Détecteur de geste (balayage gauche ou droite)
     function handleSwipeGesture(onSwipeLeft, onSwipeRight) {
-        // Seuil minimum de 50 pixels pour éviter les déclenchements involontaires
         if (touchEndX < touchStartX - 50) {
             onSwipeLeft();
         }
@@ -790,7 +812,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Gestion du balayage sur le diaporama de photos de souvenirs
     slideshowContainer.addEventListener("touchstart", (e) => {
         touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
@@ -798,12 +819,11 @@ document.addEventListener("DOMContentLoaded", () => {
     slideshowContainer.addEventListener("touchend", (e) => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipeGesture(
-            () => slideNextBtn.click(), // Swipe à gauche -> Morceau/image suivante
-            () => slidePrevBtn.click()  // Swipe à droite -> Morceau/image précédente
+            () => slideNextBtn.click(),
+            () => slidePrevBtn.click()
         );
     }, { passive: true });
 
-    // Gestion du balayage sur la visionneuse plein écran (Lightbox)
     const lightboxContentContainer = document.querySelector(".lightbox-content");
     lightboxContentContainer.addEventListener("touchstart", (e) => {
         touchStartX = e.changedTouches[0].screenX;
@@ -812,8 +832,8 @@ document.addEventListener("DOMContentLoaded", () => {
     lightboxContentContainer.addEventListener("touchend", (e) => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipeGesture(
-            () => lightboxNextBtn.click(), // Swipe gauche -> Photo suivante
-            () => lightboxPrevBtn.click()  // Swipe droite -> Photo précédente
+            () => lightboxNextBtn.click(),
+            () => lightboxPrevBtn.click()
         );
     }, { passive: true });
 });
