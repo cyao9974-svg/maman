@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonne Fête des Mères, Maman ! ❤️</title>
+    <meta name="description" content="Un message d'amour tout particulier et profond pour souhaiter une joyeuse Fête des Mères à notre maman adorée.">
+    <!-- Google Fonts pour l'esthétique premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Great+Vibes&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Icônes FontAwesome pour l'interface de contrôle -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sphères lumineuses animées en arrière-plan pour l'effet Aurore Boréale -->
+    <div class="aurora-bg">
+        <div class="aurora-orb aurora-1"></div>
+        <div class="aurora-orb aurora-2"></div>
+        <div class="aurora-orb aurora-3"></div>
+    </div>
+
+    <!-- Canvas pour la pluie de cœurs et étincelles interactives -->
+    <canvas id="heart-particles"></canvas>
+
+    <!-- ÉCRAN D'ENTRÉE : L'Enveloppe Magique -->
+    <div id="entrance-overlay" class="entrance-overlay">
+        <div class="envelope-wrapper">
+            <div class="envelope-container" id="envelope-trigger">
+                <!-- Rabat supérieur de l'enveloppe -->
+                <div class="envelope-flap"></div>
+                <!-- Corps de l'enveloppe -->
+                <div class="envelope-body"></div>
+                <!-- Contenu caché de la carte qui s'élève -->
+                <div class="envelope-card">
+                    <p class="card-hint">Avec tout notre amour...</p>
+                </div>
+                <!-- Sceau en cire magique interactif -->
+                <div class="wax-seal" id="wax-seal">
+                    <div class="seal-inner">
+                        <i class="fa-solid fa-heart heart-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <h1 class="entrance-title">Une surprise t'attend, Maman...</h1>
+            <p class="entrance-subtitle">Clique sur le cœur pour ouvrir ton cadeau</p>
+        </div>
+    </div>
+
+    <!-- CONTENU PRINCIPAL DU SITE (Masqué au départ) -->
+    <div id="main-content" class="main-content hidden">
+        
+        <!-- EN-TÊTE PRINCIPALE -->
+        <header class="app-header">
+            <h1 class="main-title animate-glow">Bonne Fête des Mères, Maman !</h1>
+            <p class="main-subtitle">Le jardin de nos souvenirs et de notre amour</p>
+            <div class="header-divider">
+                <i class="fa-solid fa-heart text-rose"></i>
+            </div>
+        </header>
+
+        <main class="content-grid">
+            <!-- SECTION 1 : LETTRE D'AMOUR PROFONDE (Le Cœur du site) -->
+            <section class="section-card letter-section" id="message-d-amour">
+                <div class="card-header">
+                    <i class="fa-solid fa-envelope-open-text header-icon"></i>
+                    <h2>Notre Hommage Profond</h2>
+                </div>
+                <article class="love-letter">
+                    <div class="letter-parchment">
+                        <div class="letter-body">
+                            <!-- Le texte sera écrit de manière dynamique par le script JS -->
+                            <div id="typewriter-container" class="typewriter-content"></div>
+                            
+                            <!-- Bloc signature qui apparaît en fondu à la fin de l'écriture -->
+                            <div class="letter-signature hidden" id="letter-signature-block">
+                                <p class="sig-title">Joyeuse Fête des Mères, la plus belle, la plus forte et la plus aimée des mamans.</p>
+                                <p class="sig-names">Avec toute la dévotion de nos âmes,<br><span>Tes enfants qui t'adorent plus que tout au monde ❤️</span></p>
+                                
+                                <!-- Bouton Câlin Virtuel Interactif -->
+                                <div class="hug-button-container">
+                                    <button class="hug-btn" id="hug-btn" title="Reçois notre amour en grand !">
+                                        <i class="fa-solid fa-heart-pulse icon-beat"></i> Reçois notre Câlin Virtuel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- SECTION 2 : TA PLAYLIST D'AMOUR (Lecteur Audio Premium) -->
+            <section class="section-card music-section" id="playlist-audio">
+                <div class="card-header">
+                    <i class="fa-solid fa-music header-icon"></i>
+                    <h2>Ta Playlist d'Amour</h2>
+                </div>
+                
+                <div class="music-player-container">
+                    <div class="player-main">
+                        <!-- Vinyle animé -->
+                        <div class="vinyl-wrapper">
+                            <div class="vinyl-disk" id="vinyl-disk">
+                                <div class="vinyl-label">
+                                    <i class="fa-solid fa-heart player-heart-icon"></i>
+                                </div>
+                            </div>
+                            <div class="vinyl-tonearm" id="vinyl-tonearm"></div>
+                        </div>
+
+                        <!-- Égaliseur Audio CSS -->
+                        <div class="audio-equalizer" id="audio-equalizer">
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                            <span class="eq-bar"></span>
+                        </div>
+
+                        <!-- Infos morceau -->
+                        <div class="track-details">
+                            <h3 id="current-track-title" class="track-title">Sélectionne une chanson</h3>
+                            <p id="current-track-artist" class="track-artist">Fête des Mères</p>
+                        </div>
+
+                        <!-- Barre de progression -->
+                        <div class="progress-bar-container" id="progress-container">
+                            <span id="current-time" class="time-label">0:00</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <span id="total-duration" class="time-label">0:00</span>
+                        </div>
+
+                        <!-- Contrôles du lecteur -->
+                        <div class="player-controls">
+                            <button id="btn-prev" class="control-btn" title="Chanson précédente">
+                                <i class="fa-solid fa-backward-step"></i>
+                            </button>
+                            <button id="btn-play-pause" class="control-btn play-btn" title="Lire / Pause">
+                                <i class="fa-solid fa-play" id="play-icon"></i>
+                            </button>
+                            <button id="btn-next" class="control-btn" title="Chanson suivante">
+                                <i class="fa-solid fa-forward-step"></i>
+                            </button>
+                        </div>
+
+                        <!-- Contrôle Volume -->
+                        <div class="volume-container">
+                            <i class="fa-solid fa-volume-low volume-icon" id="volume-icon"></i>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.7" title="Volume">
+                        </div>
+                    </div>
+
+                    <!-- Liste des morceaux -->
+                    <div class="playlist-list-container">
+                        <ul class="playlist" id="playlist-tracks">
+                            <!-- Les morceaux seront injectés par le script.js -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3 : NOS SOUVENIRS EN IMAGES (Diaporama & Galerie) -->
+            <section class="section-card gallery-section" id="diaporama-photos">
+                <div class="card-header">
+                    <i class="fa-solid fa-images header-icon"></i>
+                    <h2>Nos Souvenirs en Images</h2>
+                </div>
+
+                <!-- Diaporama principal automatique -->
+                <div class="slideshow-wrapper">
+                    <div class="slideshow-container" id="slideshow-container">
+                        <!-- Les images seront injectées dynamiquement -->
+                    </div>
+                    <!-- Flèches de navigation -->
+                    <button class="nav-arrow prev-arrow" id="slide-prev" aria-label="Photo précédente">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-arrow next-arrow" id="slide-next" aria-label="Photo suivante">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                    <!-- Indicateurs ronds -->
+                    <div class="dots-indicators" id="dots-indicators"></div>
+                </div>
+
+                <!-- Galerie en grille interactive pour explorer -->
+                <h3 class="gallery-subtitle">Explore notre boîte à souvenirs</h3>
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- Les vignettes seront injectées par le script.js -->
+                </div>
+            </section>
+        </main>
+
+        <!-- PIED DE PAGE -->
+        <footer class="app-footer">
+            <p>Créé avec tout notre cœur et toute notre âme pour notre maman d'amour.</p>
+            <p class="copyright">&copy; 2026 - Bonne Fête des Mères</p>
+        </footer>
+    </div>
+
+    <!-- LIGHTBOX VISIONNEUSE DE PHOTOS PLEIN ÉCRAN -->
+    <div id="lightbox" class="lightbox hidden">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Fermer la vue plein écran">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Photo précédente">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Vue agrandie">
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+        <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Photo suivante">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Élément Audio natif masqué -->
+    <audio id="audio-player"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
